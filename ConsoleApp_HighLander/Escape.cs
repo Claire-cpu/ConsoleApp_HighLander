@@ -9,6 +9,13 @@ namespace ConsoleApp_HighLander
     public class Escape : BehaviorStrategy
     {
         public void execute(ConsoleApp app, Highlander self, Highlander opponent=null) {
+
+        if (self == null)
+         {
+                Console.WriteLine("Error: Self cannot be null.");
+                return;
+         }
+        
         if (opponent == null)
         {
         Console.WriteLine($"{self.GetName()} has no opponent nearby to escape from.");
@@ -18,8 +25,9 @@ namespace ConsoleApp_HighLander
         int[] selfPos = self.GetPosition();
         int[] opponentPos = opponent.GetPosition();
 
-         int newRow = selfPos[0] + (selfPos[0] - opponentPos[0]);
-         int newCol = selfPos[1] + (selfPos[1] - opponentPos[1]);
+         int newRow = selfPos[0] + Math.Sign(selfPos[0] - opponentPos[0]);
+         int newCol = selfPos[1] + Math.Sign(selfPos[1] - opponentPos[1]);
+
 
          newRow = Math.Clamp(newRow, 0, app.GridRow - 1);
          newCol = Math.Clamp(newCol, 0, app.GridColumn - 1); // Assuming app.GridColumn defines the grid width
