@@ -92,16 +92,21 @@ namespace ConsoleApp_HighLander
                 for(int i=rounds; i>0; i--)
                 {
                     foreach (Highlander highlander in HighlanderList)
+                        {
+                            if (highlander.IsAlive)
                     {
-                        if (highlander.IsAlive)
+                        if (highlander.PowerLevel < 20)
+                        {
+                            highlander.Behavior = new Escape();
+                        }
+                        else
                         {
                             highlander.Behavior = new RandomMove();
-                            highlander.Behavior.execute(this, highlander);
-                        }
+                         }
+                        highlander.Behavior.execute(this, highlander);
                     }
                 }
             }
-           
         }
     }
 }
