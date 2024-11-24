@@ -46,5 +46,23 @@ namespace ConsoleApp_HighLander
             set;
         }  
 
+        // adding some methods here to execute the current behaviour
+
+         public void ExecuteBehavior(ConsoleApp app, Highlander opponent)
+    {
+        if (_behavior != null)
+        {
+            _behavior.execute(app, this, opponent);
+        }
+    }
+
+    public int[] GetPosition()
+    {
+        return _position;
+    }
+    public void UpdatePosition(int[] newPosition)
+    {
+        _position = newPosition;
+    }
     }
 }
