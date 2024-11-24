@@ -12,11 +12,11 @@ namespace ConsoleApp_HighLander
         if (opponent == null)
         {
         Console.WriteLine($"{self.GetName()} has no opponent nearby to escape from.");
-        reurn;
+        return;
         }
 
-        int[] selfPost = self.GetPosition();
-        int[] opponentPost = opponent.GetPosition();
+        int[] selfPos = self.GetPosition();
+        int[] opponentPos = opponent.GetPosition();
 
          int newRow = selfPos[0] + (selfPos[0] - opponentPos[0]);
          int newCol = selfPos[1] + (selfPos[1] - opponentPos[1]);
