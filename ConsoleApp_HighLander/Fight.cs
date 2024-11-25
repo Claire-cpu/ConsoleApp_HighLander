@@ -10,15 +10,17 @@ namespace ConsoleApp_HighLander
     {
         public void execute(ConsoleApp app, Highlander self, Highlander opponent)
         {
+            string message;
             if (self == null || opponent == null)
             {
                 Console.WriteLine("Error: both parties must be valid highlanders");
                 return;
             
             }
-
-            Console.WriteLine($"{self.Name} (Power: {self.PowerLevel}) is fighting {opponent.Name} (Power: {opponent.PowerLevel})");
-
+            message = $"{self.Name} (Power: {self.PowerLevel}) is fighting {opponent.Name} (Power: {opponent.PowerLevel})";
+            Console.WriteLine(message);
+            Logger.Log(message);
+            
             //Find stronger highlander
             Random rand = new Random();
             int totalPower = self.PowerLevel + opponent.PowerLevel;
@@ -26,17 +28,20 @@ namespace ConsoleApp_HighLander
 
             if (chance <= self.PowerLevel)
             {
-                Console.WriteLine($"{self.Name} wins against {opponent.Name} and absorbs {opponent.PowerLevel} power!");
+                message = $"{self.Name} wins against {opponent.Name} and absorbs {opponent.PowerLevel} power!";
+                Console.WriteLine(message);
+                Logger.Log(message);
                 self.PowerLevel += opponent.PowerLevel;
                 opponent.IsAlive = false;
             }
             else
             {
-                Console.WriteLine($"{opponent.Name} wins against {self.Name} and absorbs {self.PowerLevel} power!");
+                message = $"{opponent.Name} wins against {self.Name} and absorbs {self.PowerLevel} power!";
+                Console.WriteLine(message);
+                Logger.Log(message);
                 opponent.PowerLevel += self.PowerLevel;
                 self.IsAlive = false;
             }
-
         }
     }
 }
