@@ -18,7 +18,7 @@ namespace ConsoleApp_HighLander
         
         if (opponent == null)
         {
-        Console.WriteLine($"{self.GetName()} has no opponent nearby to escape from.");
+        Console.WriteLine($"{self.Name} has no opponent nearby to escape from.");
         return;
         }
 
@@ -29,12 +29,12 @@ namespace ConsoleApp_HighLander
          int newCol = selfPos[1] + Math.Sign(selfPos[1] - opponentPos[1]);
 
 
-         newRow = Math.Clamp(newRow, 0, app.GridRow - 1);
-         newCol = Math.Clamp(newCol, 0, app.GridColumn - 1); // Assuming app.GridColumn defines the grid width
+         newRow = Math.Clamp(newRow, 0, app.GridRowDimension - 1);
+         newCol = Math.Clamp(newCol, 0, app.GridColumnDimension - 1); // Assuming app.GridColumn defines the grid width
          
          self.UpdatePosition(new int[] { newRow, newCol });
 
-         Console.WriteLine($"{self.GetName()} escaped from {opponent.GetName()} to position ({newRow}, {newCol}).");
+         Console.WriteLine($"{self.Name} escaped from {opponent.Name} to position ({newRow}, {newCol}).");
 
         }
     }

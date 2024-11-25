@@ -20,9 +20,9 @@ namespace ConsoleApp_HighLander
             _grid = new int[_gridRowDimension, _gridColumnDimension];
         }
 
-        public List<Highlander>  HighlanderList
+        public List<Highlander> HighlanderList
         {
-            get{return _highlanderList;}
+            get { return _highlanderList; }
             set
             {
                 _highlanderList = value;
@@ -42,12 +42,12 @@ namespace ConsoleApp_HighLander
         }
 
         /*Add a highlander to the highlander list*/
-        public void addHighlander(Highlander highlander) 
+        public void addHighlander(Highlander highlander)
         {
             bool exist = false;
-            foreach(Highlander item in HighlanderList)
+            foreach (Highlander item in HighlanderList)
             {
-                if(item.Name.Equals(highlander.Name) )exist = true;
+                if (item.Name.Equals(highlander.Name)) exist = true;
             }
             if (!exist) { HighlanderList.Add(highlander); }
             else { throw new Exception("highlander with the same name already exist"); }
@@ -69,8 +69,9 @@ namespace ConsoleApp_HighLander
              * option2: Game ends after certain rounds of simulation specified by user
              */
             //Game logic implementation for option1
-            if (option1) {
-                while (HighlanderList.Count > 1) 
+            if (option1)
+            {
+                while (HighlanderList.Count > 1)
                 {
                     // Update position for each highlander after the game begins
                     foreach (Highlander highlander in HighlanderList)
@@ -89,21 +90,22 @@ namespace ConsoleApp_HighLander
             {
                 Console.WriteLine("Input how many rounds of simulation you wanna run?");
                 int rounds = Convert.ToInt32(Console.ReadLine());
-                for(int i=rounds; i>0; i--)
+                for (int i = rounds; i > 0; i--)
                 {
                     foreach (Highlander highlander in HighlanderList)
-                        {
-                            if (highlander.IsAlive)
                     {
-                        if (highlander.PowerLevel < 20)
+                        if (highlander.IsAlive)
                         {
-                            highlander.Behavior = new Escape();
+                            if (highlander.PowerLevel < 20)
+                            {
+                                highlander.Behavior = new Escape();
+                            }
+                            else
+                            {
+                                highlander.Behavior = new RandomMove();
+                            }
+                            highlander.Behavior.execute(this, highlander);
                         }
-                        else
-                        {
-                            highlander.Behavior = new RandomMove();
-                         }
-                        highlander.Behavior.execute(this, highlander);
                     }
                 }
             }
