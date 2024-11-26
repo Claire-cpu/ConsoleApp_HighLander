@@ -27,10 +27,12 @@ namespace ConsoleApp_HighLander
             int option = Convert.ToInt32(Console.ReadLine());
             switch (option)
             {
-                case 1: 
+                case 1:
+                    Logger.Log("User chose option 1.");
                     highlanderApp.playGame(true,false) ;
                     break;
-                case 2: 
+                case 2:
+                    Logger.Log("User chose option 2.");
                     highlanderApp.playGame(false, true);
                     break;
             }
