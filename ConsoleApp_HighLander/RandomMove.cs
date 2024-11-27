@@ -8,6 +8,7 @@ namespace ConsoleApp_HighLander
 {
     public class RandomMove : BehaviorStrategy
     {
+        private static Random rand = new Random();
         /*1 represent moving direction of north
           2 represent moving direction of northEast
           3 represent moving direction of east
@@ -29,7 +30,7 @@ namespace ConsoleApp_HighLander
             { 8, new int[2]{-1,1} },
         };
         public void execute(ConsoleApp app, Highlander self, Highlander opponent=null) {
-            Random rand = new Random();
+            
             int[] newDir = step[rand.Next(1, 9)]; //randomly generate number from 1 to 8, each represent a unique moving direction
             Console.WriteLine("new move direction is {0} {1}", newDir[0], newDir[1]);
             while (self.Position[0] + newDir[0]>app.GridColumnDimension-1 || self.Position[0] + newDir[0] < 0)

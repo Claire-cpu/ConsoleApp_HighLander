@@ -96,14 +96,14 @@ namespace ConsoleApp_HighLander
                     {
                         if (highlander.IsAlive)
                         {
-                            if (highlander.PowerLevel < 20)
+                            /*if (highlander.PowerLevel < 20)
                             {
                                 highlander.Behavior = new Escape();
                             }
                             else
-                            {
+                            {*/
                                 highlander.Behavior = new RandomMove();
-                            }
+                            //}
                             highlander.Behavior.execute(this, highlander);
                         }
                     }

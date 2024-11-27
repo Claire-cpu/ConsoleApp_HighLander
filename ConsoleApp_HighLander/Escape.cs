@@ -29,8 +29,8 @@ namespace ConsoleApp_HighLander
          int newCol = selfPos[1] + Math.Sign(selfPos[1] - opponentPos[1]);
 
 
-         newRow = Math.Clamp(newRow, 0, app.GridRowDimension - 1);
-         newCol = Math.Clamp(newCol, 0, app.GridColumnDimension - 1); // Assuming app.GridColumn defines the grid width
+         //newRow = Math.Clamp(newRow, 0, app.GridRowDimension - 1);
+         //newCol = Math.Clamp(newCol, 0, app.GridColumnDimension - 1); // Assuming app.GridColumn defines the grid width
          
          self.UpdatePosition(new int[] { newRow, newCol });
 

@@ -8,6 +8,7 @@ namespace ConsoleApp_HighLander
 {
     public abstract class Highlander
     {
+        public static int _idCounter = 0;
         private int _id;
         private string _name;
         private int _powerLevel;
@@ -16,8 +17,8 @@ namespace ConsoleApp_HighLander
         private bool _isAlive;
         private BehaviorStrategy _behavior;
 
-        public Highlander(int id, string name, int age, int powerLevel, int[] position, bool isAlive) { 
-            _id = id;
+        public Highlander(string name, int age, int powerLevel, int[] position, bool isAlive) { 
+            _id = ++_idCounter;
             _name = name;
             _age = age;
             _powerLevel = powerLevel;
