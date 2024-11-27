@@ -65,21 +65,41 @@ namespace ConsoleApp_HighLander
         /*Implement the logic of the Highlander's behavior, i.e. random moving, escape, fight, */
         public void playGame(bool option1, bool option2)
         {
-            /*option1: Game ends only when there is 1 highlander lef
-             * option2: Game ends after certain rounds of simulation specified by user
-             */
+            Fight fight = new Fight();
+            /*option1: Game ends only when there is 1 highlander left
+            * option2: Game ends after certain rounds of simulation specified by user
+            */
             //Game logic implementation for option1
             if (option1)
             {
-                while (HighlanderList.Count > 1)
+                while (HighlanderList.Count(h => h.IsAlive) > 1)
                 {
                     // Update position for each highlander after the game begins
-                    foreach (Highlander highlander in HighlanderList)
+                    foreach (Highlander highlander in HighlanderList.Where(h => h.IsAlive))
                     {
                         if (highlander.IsAlive)
                         {
                             highlander.Behavior = new RandomMove();
                             highlander.Behavior.execute(this, highlander);
+
+                            //Check for collisions
+                            var opponentsInCell = HighlanderList
+                                    .Where(h => h.IsAlive &&
+                                           h != highlander &&
+                                           h.Row == highlander.Row &&
+                                           h.Column == highlander.Column)
+                                    .ToList();
+                            
+
+                            while (opponentsInCell.Count > 0)
+                            {
+                                Highlander opponent = opponentsInCell.First();
+                                highlander.Behavior = fight;
+                                highlander.Behavior.execute(this, highlander, opponent);
+
+                                //Remove defeated highlanders
+                                opponentsInCell = opponentsInCell.Where(h => h.IsAlive).ToList();
+                            }
                         }
                     }
                 }
@@ -107,7 +127,12 @@ namespace ConsoleApp_HighLander
                             highlander.Behavior.execute(this, highlander);
                         }
                     }
+
+                    Logger.Log($"Round {i} completed.");
+                    HighlanderList.RemoveAll(h => !h.IsAlive);
                 }
+
+                Logger.Log("Simulation Complete.");
             }
         }
     }
