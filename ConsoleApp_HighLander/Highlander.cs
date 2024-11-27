@@ -29,22 +29,30 @@ namespace ConsoleApp_HighLander
         public int PowerLevel { get { return _powerLevel; } set { _powerLevel = value; } }
         public int[] Position { get { return _position; } set { _position = value; } }
         public int Age { get { return _age; } set { _age = value; } }
-        public bool IsAlive
+        public bool IsAlive { get { return _isAlive; } set { _isAlive = value; } }
+        public BehaviorStrategy Behavior { get { return _behavior; } set { _behavior = value; } }
+        public abstract bool IsGood { get; set; }
+        
+        //Row and Column
+        public int Row { get { return _position[0]; } set {  _position[0] = value; } }
+        public int Column { get { return _position[1]; } set { _position[1] = value; } }
+        // adding some methods here to execute the current behaviour
+
+        public void ExecuteBehavior(ConsoleApp app, Highlander opponent)
         {
-            get { return _isAlive; }
-            set { _isAlive = value; }
+            if (_behavior != null)
+            {
+                _behavior.execute(app, this, opponent);
+            }
         }
 
-        public BehaviorStrategy Behavior
+        public int[] GetPosition()
         {
-            get { return _behavior; }
-            set { _behavior = value; }
+            return _position;
         }
-        public abstract bool IsGood
+        public void UpdatePosition(int[] newPosition)
         {
-            get;
-            set;
-        }  
-
+            _position = newPosition;
+        }
     }
 }

@@ -8,10 +8,40 @@ namespace ConsoleApp_HighLander
 {
     public class Fight : BehaviorStrategy
     {
-        public void execute(ConsoleApp app, Highlander self, Highlander opponent = null)
+        public void execute(ConsoleApp app, Highlander self, Highlander opponent)
         {
+            string message;
+            if (self == null || opponent == null)
+            {
+                Console.WriteLine("Error: both parties must be valid highlanders");
+                return;
+            
+            }
+            message = $"{self.Name} (Power: {self.PowerLevel}) is fighting {opponent.Name} (Power: {opponent.PowerLevel})";
+            Console.WriteLine(message);
+            Logger.Log(message);
+            
+            //Find stronger highlander
+            Random rand = new Random();
+            int totalPower = self.PowerLevel + opponent.PowerLevel;
+            int chance = rand.Next(1, totalPower + 1);
 
-
+            if (chance <= self.PowerLevel)
+            {
+                message = $"{self.Name} wins against {opponent.Name} and absorbs {opponent.PowerLevel} power!";
+                Console.WriteLine(message);
+                Logger.Log(message);
+                self.PowerLevel += opponent.PowerLevel;
+                opponent.IsAlive = false;
+            }
+            else
+            {
+                message = $"{opponent.Name} wins against {self.Name} and absorbs {self.PowerLevel} power!";
+                Console.WriteLine(message);
+                Logger.Log(message);
+                opponent.PowerLevel += self.PowerLevel;
+                self.IsAlive = false;
+            }
         }
     }
 }

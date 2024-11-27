@@ -29,9 +29,15 @@ namespace ConsoleApp_HighLander
             { 8, new int[2]{-1,1} },
         };
         public void execute(ConsoleApp app, Highlander self, Highlander opponent=null) {
+            string message;
+            string message2;
+
             Random rand = new Random();
             int[] newDir = step[rand.Next(1, 9)]; //randomly generate number from 1 to 8, each represent a unique moving direction
-            Console.WriteLine("new move direction is {0} {1}", newDir[0], newDir[1]);
+            message = $"new move direction is {newDir[0]}, {newDir[1]}";
+            Console.WriteLine(message);
+            Logger.Log(message);
+
             while (self.Position[0] + newDir[0]>app.GridColumnDimension-1 || self.Position[0] + newDir[0] < 0)
             {
                 newDir = step[rand.Next(1, 9)]; //If the randomly genrated moving direction causes the highlander to move outside the boundary, regenerate a direction
@@ -39,7 +45,10 @@ namespace ConsoleApp_HighLander
             self.Position[0] += newDir[0]; // update position in the row index
             self.Position[1] += newDir[1]; // update position in the column index
 
-            Console.WriteLine("Test: {0}'s updated position is ({1}, {2})", self.Name, self.Position[0], self.Position[1]);
+
+            message2 = $"Test: {self.Name}'s updated position is ({self.Position[0]}, {self.Position[1]})";
+            Console.WriteLine(message2);
+            Logger.Log(message2);
         }
     }
 }
