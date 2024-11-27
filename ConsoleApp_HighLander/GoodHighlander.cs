@@ -8,8 +8,8 @@ namespace ConsoleApp_HighLander
 {
     internal class GoodHighlander : Highlander
     {
-        public GoodHighlander(int id, string name, int age, int powerLevel, int[] position, bool isAlive)
-        : base(id, name, age, powerLevel, position, isAlive)
+        public GoodHighlander(string name, int age, int powerLevel, int[] position, bool isAlive)
+        : base(name, age, powerLevel, position, isAlive)
         {
             _isGood = true; // Set default value of the characteristic for GoodHighlander
         }

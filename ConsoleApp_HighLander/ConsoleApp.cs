@@ -110,39 +110,21 @@ namespace ConsoleApp_HighLander
             {
                 Console.WriteLine("Input how many rounds of simulation you wanna run?");
                 int rounds = Convert.ToInt32(Console.ReadLine());
-                Logger.Log($"User started {rounds} rounds.");
-                for (int i = 1; i <= rounds; i++)
+                for (int i = rounds; i > 0; i--)
                 {
-                    foreach (Highlander highlander in HighlanderList.Where(h => h.IsAlive))
+                    foreach (Highlander highlander in HighlanderList)
                     {
-                        if (highlander.PowerLevel < 20)
+                        if (highlander.IsAlive)
                         {
+                            /*if (highlander.PowerLevel < 20)
+                            {
                                 highlander.Behavior = new Escape();
-                        }
-                        else
-                        {
-                            highlander.Behavior = new RandomMove();
-                        }
-                        
-                        highlander.Behavior.execute(this, highlander);
-
-                        //Check for collisions
-                        var opponentsInCell = HighlanderList
-                                    .Where(h => h.IsAlive &&
-                                           h != highlander &&
-                                           h.Row == highlander.Row &&
-                                           h.Column == highlander.Column)
-                                    .ToList();
-
-
-                        while (opponentsInCell.Count > 0)
-                        {
-                            Highlander opponent = opponentsInCell.First();
-                            highlander.Behavior = fight;
-                            highlander.Behavior.execute(this, highlander, opponent);
-
-                            //Remove defeated highlanders
-                            opponentsInCell = opponentsInCell.Where(h => h.IsAlive).ToList();
+                            }
+                            else
+                            {*/
+                                highlander.Behavior = new RandomMove();
+                            //}
+                            highlander.Behavior.execute(this, highlander);
                         }
                     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -11,18 +12,37 @@ namespace ConsoleApp_HighLander
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Input the name of highlander");
-            string name = Console.ReadLine();
-
-            Highlander h1 = new GoodHighlander(1, name, 25, 10, new int[] {2,1}, true);
-
-            Console.WriteLine("the created highlander h1 with name {0} and initial position {1}:{2}",name, h1.Position[0], h1.Position[1]);
-            ConsoleApp highlanderApp = new ConsoleApp(5,5);
+            string name;
+            int age, powerLevel, rowPosition, columnPosition;
+            int[] position;
+            bool isAlive;
+            bool exit = false;
+            ConsoleApp highlanderApp = new ConsoleApp(5, 5);
 
             Console.WriteLine("dimension of highlander app is {0} x {1}", highlanderApp.GridRowDimension, highlanderApp.GridColumnDimension);
-            highlanderApp.HighlanderList.Add(h1);
+            while (!exit){
+                Console.WriteLine("Input the name of highlander");
+                name = Console.ReadLine();
+                Console.WriteLine("Input the age of highlander");
+                age = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Input the power level of highlander");
+                powerLevel = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Input the row position of highlander");
+                rowPosition = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Input the column position of highlander");
+                columnPosition = Convert.ToInt32(Console.ReadLine());
+                position = new int[] { rowPosition, columnPosition };
+                Console.WriteLine("Input whether the highlander is alive: 1 for alive, 0 for dead");
+                isAlive = Convert.ToBoolean(Convert.ToInt32(Console.ReadLine()));
+                highlanderApp.HighlanderList.Add(new GoodHighlander(name, age, powerLevel, position, isAlive));
 
-            Console.WriteLine("highlander successfully added");
+                Console.WriteLine("highlander successfully added");
+                Console.WriteLine("Do you wanna add another highlander? y or n");
+                string ans = Console.ReadLine();
+                if(ans == "n") exit = true;
+
+            }
+
             Console.WriteLine("Select from Option 1 or 2 for the Game /n Option1: Game end until there is only 1 highlander /n Option2: Game ends after certain rounds of play: ");
             int option = Convert.ToInt32(Console.ReadLine());
             switch (option)
