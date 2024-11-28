@@ -8,10 +8,10 @@ namespace ConsoleApp_HighLander
 {
     public class ConsoleApp
     {
-        private List<Highlander> _highlanderList = new List<Highlander>(); // list of highlanders
-        private int _gridRowDimension; // num of rows for the grid where highlander game happen
-        private int _gridColumnDimension;// num of columns for the grid where highlander game happen
-        private int[,] _grid; //two dimensional grid
+        private List<Highlander> _highlanderList = new List<Highlander>();
+        private int _gridRowDimension;
+        private int _gridColumnDimension;
+        private int[,] _grid; 
 
         public ConsoleApp(int gridRowDimension, int gridColumnDimension)
         {
@@ -23,10 +23,7 @@ namespace ConsoleApp_HighLander
         public List<Highlander> HighlanderList
         {
             get { return _highlanderList; }
-            set
-            {
-                _highlanderList = value;
-            }
+            set { _highlanderList = value; }
         }
 
         public int GridRowDimension
@@ -41,99 +38,96 @@ namespace ConsoleApp_HighLander
             set { _gridColumnDimension = value; }
         }
 
-        /*Add a highlander to the highlander list*/
-        public void addHighlander(Highlander highlander)
+        public void AddHighlander(Highlander highlander)
         {
-            bool exist = false;
-            foreach (Highlander item in HighlanderList)
+            if (_highlanderList.Any(h => h.Name.Equals(highlander.Name, StringComparison.OrdinalIgnoreCase)))
             {
-                if (item.Name.Equals(highlander.Name)) exist = true;
+                throw new Exception("A Highlander with the same name already exists.");
             }
-            if (!exist) { HighlanderList.Add(highlander); }
-            else { throw new Exception("highlander with the same name already exist"); }
+            _highlanderList.Add(highlander);
         }
 
-        /*Remove a highlander to the highlander list*/
-        public void removeHighlander(Highlander highlander)
+        public void RemoveHighlander(Highlander highlander)
         {
-            foreach (Highlander item in HighlanderList)
-            {
-                if (item.Id == highlander.Id) { HighlanderList.Remove(item); }
-            }
+            _highlanderList.RemoveAll(h => h.Id == highlander.Id);
         }
 
-        /*Implement the logic of the Highlander's behavior, i.e. random moving, escape, fight, */
-        public void playGame(bool option1, bool option2)
+
+        public void PlayGame(bool option1, bool option2)
         {
             Fight fight = new Fight();
-            /*option1: Game ends only when there is 1 highlander left
-            * option2: Game ends after certain rounds of simulation specified by user
-            */
-            //Game logic implementation for option1
+
+        
             if (option1)
             {
-                while (HighlanderList.Count(h => h.IsAlive) > 1)
+                while (_highlanderList.Count(h => h.IsAlive) > 1)
                 {
-                    // Update position for each highlander after the game begins
-                    foreach (Highlander highlander in HighlanderList.Where(h => h.IsAlive))
-                    {
-                        if (highlander.IsAlive)
-                        {
-                            highlander.Behavior = new RandomMove();
-                            highlander.Behavior.execute(this, highlander);
-
-                            //Check for collisions
-                            var opponentsInCell = HighlanderList
-                                    .Where(h => h.IsAlive &&
-                                           h != highlander &&
-                                           h.Row == highlander.Row &&
-                                           h.Column == highlander.Column)
-                                    .ToList();
-                            
-
-                            while (opponentsInCell.Count > 0)
-                            {
-                                Highlander opponent = opponentsInCell.First();
-                                highlander.Behavior = fight;
-                                highlander.Behavior.execute(this, highlander, opponent);
-
-                                //Remove defeated highlanders
-                                opponentsInCell = opponentsInCell.Where(h => h.IsAlive).ToList();
-                            }
-                        }
-                    }
+                    ExecuteRound(fight);
                 }
+                Console.WriteLine("The game has ended. Only one Highlander remains!");
             }
 
-            //Game logic implementation for option2
+        
             if (option2)
             {
-                Console.WriteLine("Input how many rounds of simulation you wanna run?");
+                Console.WriteLine("Input how many rounds of simulation you want to run:");
                 int rounds = Convert.ToInt32(Console.ReadLine());
-                for (int i = rounds; i > 0; i--)
-                {
-                    foreach (Highlander highlander in HighlanderList)
-                    {
-                        if (highlander.IsAlive)
-                        {
-                            /*if (highlander.PowerLevel < 20)
-                            {
-                                highlander.Behavior = new Escape();
-                            }
-                            else
-                            {*/
-                                highlander.Behavior = new RandomMove();
-                            //}
-                            highlander.Behavior.execute(this, highlander);
-                        }
-                    }
 
-                    Logger.Log($"Round {i} completed.");
-                    HighlanderList.RemoveAll(h => !h.IsAlive);
+                for (int round = 1; round <= rounds; round++)
+                {
+                    Console.WriteLine($"Round {round} begins.");
+                    ExecuteRound(fight);
+                    Console.WriteLine($"Round {round} ends. Remaining Highlanders: {_highlanderList.Count(h => h.IsAlive)}");
                 }
 
-                Logger.Log("Simulation Complete.");
+                Console.WriteLine("Simulation complete.");
             }
+        }
+
+    
+        private void ExecuteRound(Fight fight)
+        {
+            foreach (Highlander highlander in _highlanderList.Where(h => h.IsAlive))
+            {
+                // Checking for collisions
+                var opponentsInCell = _highlanderList
+                    .Where(h => h.IsAlive && h != highlander && h.Row == highlander.Row && h.Column == highlander.Column)
+                    .ToList();
+
+                if (opponentsInCell.Any())
+                {
+                    // Determining here whether to escape or fight
+                    bool shouldEscape = opponentsInCell.Any(opponent =>
+                        (highlander.IsGood && !opponent.IsGood) || (!highlander.IsGood && opponent.IsGood));
+
+                    if (shouldEscape)
+                    {
+                        highlander.Behavior = new Escape();
+                        highlander.Behavior.Execute(this, highlander);
+                        Console.WriteLine($"{highlander.Name} escaped.");
+                        continue; // Skip further logic for this Highlander in this round
+                    }
+
+                    // Otherwise, fight the first opponent in the cell
+                    Highlander opponent = opponentsInCell.First();
+                    highlander.Behavior = fight;
+                    highlander.Behavior.Execute(this, highlander, opponent);
+
+                    if (!opponent.IsAlive)
+                    {
+                        Console.WriteLine($"{highlander.Name} defeated {opponent.Name}.");
+                    }
+                }
+                else
+                {
+               
+                    highlander.Behavior = new RandomMove();
+                    highlander.Behavior.Execute(this, highlander);
+                }
+            }
+
+            // Remove dead Highlanders after the round
+            _highlanderList.RemoveAll(h => !h.IsAlive);
         }
     }
 }
