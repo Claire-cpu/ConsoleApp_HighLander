@@ -8,7 +8,7 @@ namespace ConsoleApp_HighLander
 {
     public class Escape : BehaviorStrategy
     {
-        public void execute(ConsoleApp app, Highlander self, Highlander opponent=null) 
+        public void execute(ConsoleApp app, Highlander self, Highlander opponent = null)
         {
             string message;
 
@@ -17,29 +17,46 @@ namespace ConsoleApp_HighLander
                 Console.WriteLine("Error: Self cannot be null.");
                 return;
             }
-        
+
             if (opponent == null)
             {
                 Console.WriteLine($"{self.Name} has no opponent nearby to escape from.");
                 return;
             }
 
-            int[] selfPos = self.GetPosition();
-            int[] opponentPos = opponent.GetPosition();
+            // here Checking the type of the opponent
+            if (opponent.IsBad && self.IsGood)
+            {
+             
+                int[] selfPos = self.GetPosition();
+                int[] opponentPos = opponent.GetPosition();
 
-            int newRow = selfPos[0] + Math.Sign(selfPos[0] - opponentPos[0]);
-            int newCol = selfPos[1] + Math.Sign(selfPos[1] - opponentPos[1]);
+            
+                int[] newPos = CalculateEscapePosition(selfPos, opponentPos, app.GridRowDimension - 1, app.GridColumnDimension - 1);
+                self.UpdatePosition(newPos);
+
+                message = $"{self.Name} escaped from {opponent.Name} to position ({newPos[0]}, {newPos[1]}).";
+                Console.WriteLine(message);
+                Logger.Log(message);
+            }
+            else
+            {
+                Console.WriteLine($"{self.Name} did not escape from {opponent.Name}.");
+            }
+        }
+
+    
+        private int[] CalculateEscapePosition(int[] selfPos, int[] opponentPos, int maxRow, int maxCol)
+        {
+            int newRow = Clamp(selfPos[0] + Math.Sign(selfPos[0] - opponentPos[0]), 0, maxRow);
+            int newCol = Clamp(selfPos[1] + Math.Sign(selfPos[1] - opponentPos[1]), 0, maxCol);
+            return new int[] { newRow, newCol };
+        }
 
 
-         //newRow = Math.Clamp(newRow, 0, app.GridRowDimension - 1);
-         //newCol = Math.Clamp(newCol, 0, app.GridColumnDimension - 1); // Assuming app.GridColumn defines the grid width
-         
-            self.UpdatePosition(new int[] { newRow, newCol });
-
-            message = $"{self.Name} escaped from {opponent.Name} to position ({newRow}, {newCol}).";
-            Console.WriteLine(message);
-            Logger.Log(message);
-
+        private int Clamp(int value, int min, int max)
+        {
+            return (value < min) ? min : (value > max) ? max : value;
         }
     }
 }
