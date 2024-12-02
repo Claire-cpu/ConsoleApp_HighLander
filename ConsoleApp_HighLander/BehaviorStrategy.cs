@@ -8,6 +8,6 @@ namespace ConsoleApp_HighLander
 {
     public interface BehaviorStrategy
     {
-        void execute(ConsoleApp app, Highlander self, Highlander opponent=null);
+        void Execute(ConsoleApp app, Highlander self, Highlander opponent=null);
     }
 }

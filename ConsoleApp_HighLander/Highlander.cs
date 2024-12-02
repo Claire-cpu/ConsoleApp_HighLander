@@ -38,22 +38,22 @@ namespace ConsoleApp_HighLander
         public int Row { get { return _position[0]; } set {  _position[0] = value; } }
         public int Column { get { return _position[1]; } set { _position[1] = value; } }
         // adding some methods here to execute the current behaviour
-
+        /*
         public void ExecuteBehavior(ConsoleApp app, Highlander opponent)
         {
             if (_behavior != null)
             {
-                _behavior.execute(app, this, opponent);
+                _behavior.Execute(app, this, opponent);
             }
-        }
+        }*/
 
-        public int[] GetPosition()
+        /*public int[] GetPosition()
         {
             return _position;
         }
         public void UpdatePosition(int[] newPosition)
         {
             _position = newPosition;
-        }
+        }*/
     }
 }

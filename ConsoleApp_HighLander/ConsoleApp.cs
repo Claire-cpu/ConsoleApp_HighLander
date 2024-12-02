@@ -94,11 +94,11 @@ namespace ConsoleApp_HighLander
                     .Where(h => h.IsAlive && h != highlander && h.Row == highlander.Row && h.Column == highlander.Column)
                     .ToList();
 
-                if (opponentsInCell.Any())
+                if (highlander.IsGood && opponentsInCell.Any())
                 {
                     // Determining here whether to escape or fight
-                    bool shouldEscape = opponentsInCell.Any(opponent =>
-                        (highlander.IsGood && !opponent.IsGood) || (!highlander.IsGood && opponent.IsGood));
+                    bool shouldEscape = opponentsInCell.Any(oppo =>
+                        (!oppo.IsGood));
 
                     if (shouldEscape)
                     {

@@ -8,15 +8,10 @@ namespace ConsoleApp_HighLander
 {
     public class Fight : BehaviorStrategy
     {
-        public void execute(ConsoleApp app, Highlander self, Highlander opponent)
+        public void Execute(ConsoleApp app, Highlander self, Highlander opponent)
         {
             string message;
-            if (self == null || opponent == null)
-            {
-                Console.WriteLine("Error: both parties must be valid highlanders");
-                return;
             
-            }
             message = $"{self.Name} (Power: {self.PowerLevel}) is fighting {opponent.Name} (Power: {opponent.PowerLevel})";
             Console.WriteLine(message);
             Logger.Log(message);

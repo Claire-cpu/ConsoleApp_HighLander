@@ -29,7 +29,7 @@ namespace ConsoleApp_HighLander
             { 7, new int[2]{-1,0} },
             { 8, new int[2]{-1,1} },
         };
-        public void execute(ConsoleApp app, Highlander self, Highlander opponent=null) {
+        public void Execute(ConsoleApp app, Highlander self, Highlander opponent=null) {
             string message, message2;
 
             int[] newDir = step[rand.Next(1, 9)]; //randomly generate number from 1 to 8, each represent a unique moving direction
