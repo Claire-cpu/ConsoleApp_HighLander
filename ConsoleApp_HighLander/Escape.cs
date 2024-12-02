@@ -11,13 +11,6 @@ namespace ConsoleApp_HighLander
         public void execute(ConsoleApp app, Highlander self, Highlander opponent = null)
         {
             string message;
-
-            if (self == null)
-            {
-                Console.WriteLine("Error: Self cannot be null.");
-                return;
-            }
-
             if (opponent == null)
             {
                 Console.WriteLine($"{self.Name} has no opponent nearby to escape from.");
