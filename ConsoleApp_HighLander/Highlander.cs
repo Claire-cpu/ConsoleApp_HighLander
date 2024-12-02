@@ -17,13 +17,13 @@ namespace ConsoleApp_HighLander
         private bool _isAlive;
         private BehaviorStrategy _behavior;
 
-        public Highlander(string name, int age, int powerLevel, int[] position, bool isAlive) { 
+        public Highlander(string name, int age, int powerLevel, int[] position) { 
             _id = ++_idCounter;
             _name = name;
             _age = age;
             _powerLevel = powerLevel;
             _position = position;
-            _isAlive = isAlive;
+            _isAlive = true;
         }
         public int Id { get { return _id; } set { _id = value; } }
         public string Name { get { return _name; } set { _name = value; } }
@@ -38,14 +38,14 @@ namespace ConsoleApp_HighLander
         public int Row { get { return _position[0]; } set {  _position[0] = value; } }
         public int Column { get { return _position[1]; } set { _position[1] = value; } }
         // adding some methods here to execute the current behaviour
-        /*
+        
         public void ExecuteBehavior(ConsoleApp app, Highlander opponent)
         {
             if (_behavior != null)
             {
                 _behavior.Execute(app, this, opponent);
             }
-        }*/
+        }
 
         /*public int[] GetPosition()
         {
