@@ -15,7 +15,7 @@ namespace ConsoleApp_HighLander
             // here Checking the type of the opponent
             
                 int[] selfPos = self.Position;
-                int[] opponentPos = opponent.Position;
+                //int[] opponentPos = opponent.Position;
             self.Behavior = new RandomMove();
 
             //int[] newPos = CalculateEscapePosition(selfPos, opponentPos, app.GridRowDimension - 1, app.GridColumnDimension - 1);

@@ -15,7 +15,7 @@ namespace ConsoleApp_HighLander
             string name;
             int age, powerLevel, rowPosition, columnPosition;
             int[] position;
-            bool isAlive;
+            bool isGoodHighlander;
             bool exit = false;
             ConsoleApp highlanderApp = new ConsoleApp(5, 5);
 
@@ -32,9 +32,17 @@ namespace ConsoleApp_HighLander
                 Console.WriteLine("Input the column position of highlander");
                 columnPosition = Convert.ToInt32(Console.ReadLine());
                 position = new int[] { rowPosition, columnPosition };
-                Console.WriteLine("Input whether the highlander is alive: 1 for alive, 0 for dead");
-                isAlive = Convert.ToBoolean(Convert.ToInt32(Console.ReadLine()));
-                highlanderApp.HighlanderList.Add(new GoodHighlander(name, age, powerLevel, position, isAlive));
+                Console.WriteLine("Input whether the highlander is good: 1 for good, 0 for bad");
+                isGoodHighlander = Convert.ToBoolean(Convert.ToInt32(Console.ReadLine()));
+                if (isGoodHighlander)
+                {
+                    highlanderApp.HighlanderList.Add(new GoodHighlander(name, age, powerLevel, position));
+                }
+                else
+                {
+                    highlanderApp.HighlanderList.Add(new BadHighlander(name, age, powerLevel, position));
+                }
+
 
                 Console.WriteLine("highlander successfully added");
                 Console.WriteLine("Do you wanna add another highlander? y or n");
@@ -49,11 +57,11 @@ namespace ConsoleApp_HighLander
             {
                 case 1:
                     Logger.Log("User chose option 1.");
-                    highlanderApp.playGame(true,false) ;
+                    highlanderApp.PlayGame(true,false) ;
                     break;
                 case 2:
                     Logger.Log("User chose option 2.");
-                    highlanderApp.playGame(false, true);
+                    highlanderApp.PlayGame(false, true);
                     break;
             }
             

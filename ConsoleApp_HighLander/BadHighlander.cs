@@ -10,8 +10,8 @@ namespace ConsoleApp_HighLander
     {
         private bool _isGood;
 
-        public BadHighlander(string name, int age, int powerLevel, int[] position, bool isAlive)
-        : base(name, age, powerLevel, position, isAlive)
+        public BadHighlander(string name, int age, int powerLevel, int[] position)
+        : base(name, age, powerLevel, position)
         {
             _isGood = true; // Set default value of the characteristic for BadHighlander
         }
